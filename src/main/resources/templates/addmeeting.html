@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Server Programming with Spring Boot</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+	<h1>Add book</h1>
+	<div>
+		
+		<form th:object="${meeting}" th:action="@{save}" action="#" method="post">
+			<label for="meetingTitle">Meeting title</label>
+			<input type="text" id="meetingTitle" th:field="*{meetingTitle}" />
+			<label for="customer">Customer</label>
+            <!-- Use a dropdown/select element for selecting a customer -->
+            <select id="customer" th:field="*{customer.id}">
+                <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
+            </select>
+			<input type="submit" value="Save"></input>
+		</form>
+	</div>
+</body>
+
+</html>
