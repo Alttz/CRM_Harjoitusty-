@@ -24,15 +24,18 @@ public class Meeting {
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 	
-	
+	@ManyToOne
+	@JoinColumn(name = "employee_id")
+	private Employee employee;
 
 	public Meeting() {
 	}
 
-	public Meeting(@NotBlank String meetingTitle, Customer customer) {
+	public Meeting(@NotBlank String meetingTitle, Customer customer, Employee employee) {
 		super();
 		this.meetingTitle = meetingTitle;
 		this.customer = customer;
+		this.employee = employee;
 	}
 
 	public Long getMeetingid() {
@@ -59,10 +62,23 @@ public class Meeting {
 		this.customer = customer;
 	}
 
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
 	@Override
 	public String toString() {
-		return "Meeting [meetingid=" + meetingid + ", meetingTitle=" + meetingTitle + ", customer=" + customer + "]";
+		return "Meeting [meetingid=" + meetingid + ", meetingTitle=" + meetingTitle + ", customer=" + customer
+				+ ", employee=" + employee + "]";
 	}
+
+
+
+	
 	
 	
 	

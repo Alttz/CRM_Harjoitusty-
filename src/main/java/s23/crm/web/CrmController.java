@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import s23.crm.domain.Customer;
 import s23.crm.domain.CustomerRepository;
+import s23.crm.domain.EmployeeRepository;
 import s23.crm.domain.Meeting;
 import s23.crm.domain.MeetingRepository;
+import s23.crm.domain.UserRepository;
 
 @Controller
 public class CrmController {
@@ -24,6 +26,11 @@ public class CrmController {
 	private CustomerRepository customerRepository;
 	@Autowired
 	private MeetingRepository meetingRepository;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private EmployeeRepository employeeRepository;
+	
 
 	private static final Logger log = LoggerFactory.getLogger(CrmController.class);
 
@@ -50,6 +57,7 @@ public class CrmController {
 		log.info("adding meeting");
 		model.addAttribute("meeting", new Meeting());
 		model.addAttribute("customers", customerRepository.findAll());
+		model.addAttribute("employees", employeeRepository.findAll());
 		return "addmeeting";
 	}
 	
@@ -66,6 +74,7 @@ public class CrmController {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("edit", meeting);
 			model.addAttribute("customers", customerRepository.findAll());
+			model.addAttribute("appusers", userRepository.findAll());
 		}
 		meetingRepository.save(meeting);
 	 return "redirect:crm";

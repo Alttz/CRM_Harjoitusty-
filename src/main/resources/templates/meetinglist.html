@@ -10,6 +10,10 @@
 
 <body>
 	<h1>CRM</h1>
+	<div class="col-md-4">
+		<i>Welcome <b sec:authentication="name"></b>, 
+        your role is <b sec:authentication="principal.authorities"></b>
+	</div>
 	<table class="table table-striped">
 		<tr>
 			<th>Meeting Title</th>
@@ -18,10 +22,17 @@
 		<tr th:each="meeting : ${meetings}">
 			<td th:text="${meeting.meetingTitle}"></td>
 			<td th:text="${meeting.customer?.name}"></td>
+			<td th:text="${meeting.employee?.firstName}"></td>
+			<td th:text="${meeting.employee?.lastName}"></td>
 		</tr>
 	</table>
 	<a href="/addmeeting" class="btn btn-success">Add a new meeting</a> <br>
 	<a href="/addcustomer" class="btn btn-success">Add a new customer</a>
+	<div class="col-md-4" style="padding:20px 0">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out" />
+        </form>
+    </div>
 </body>
 
 </html>
