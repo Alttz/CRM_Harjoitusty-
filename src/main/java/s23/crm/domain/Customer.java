@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Customer {
@@ -15,16 +17,17 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long customer_id;
 	
-	@NotBlank
+	@Size(min = 2, max = 255, message = "Nimessä tulee olla 2-255 merkkiä")
     @Column(name = "customer_name") // Specify the column name in the database
 	private String name;
+    @Pattern(regexp = "^\\d{7}-\\d$", message = "Y-tunnuksen tulee olla muodossa 1234567-8")
     @Column(name = "org_num") // Specify the column name in the database
-	private int orgNum;
+	private String orgNum;
 	
 	public Customer() {
 	}
 
-	public Customer(@NotBlank String name, int orgNum) {
+	public Customer(@NotBlank String name, String orgNum) {
 		super();
 		this.name = name;
 		this.orgNum = orgNum;
@@ -46,11 +49,11 @@ public class Customer {
 		this.name = name;
 	}
 
-	public int getOrgNum() {
+	public String getOrgNum() {
 		return orgNum;
 	}
 
-	public void setOrgNum(int orgNum) {
+	public void setOrgNum(String orgNum) {
 		this.orgNum = orgNum;
 	}
 

@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class Employee {
@@ -14,22 +16,26 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long employee_id;
 
-    @NotBlank
+    @NotBlank(message = "Etunimi ei saa olla tyhjä.")
+    @Size(min = 2, max = 50, message = "Etunimen pituuden tulee olla 2-50 merkkiä.")
     @Column(name = "first_name")
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "Sukunimi ei saa olla tyhjä.")
+    @Size(min = 2, max = 50, message = "Sukunimen pituuden tulee olla 2-50 merkkiä.")
     @Column(name = "last_name")
     private String lastName;
 
-    @NotBlank
+    @NotBlank(message = "Titteli ei saa olla tyhjä.")
+    @Size(min = 3, max = 100, message = "Tittelin pituuden tulee olla 3-100 merkkiä.")
+    @Pattern(regexp = "^[a-zA-ZäöüÄÖÜ\\s]*$", message = "Titteli voi sisältää vain kirjaimia ja välilyöntejä.")
     @Column(name = "employee_position")
     private String position;
 
     public Employee() {
     }
 
-    public Employee(@NotBlank String firstName, @NotBlank String lastName, @NotBlank String position) {
+    public Employee(String firstName, String lastName, String position) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.position = position;

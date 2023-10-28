@@ -2,22 +2,42 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Add Customer</title>
+    <title>Uusi asiakas</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 
-<body>
-    <h1>Add Customer</h1>
-    <div>
-        <form th:object="${customer}" th:action="@{/savecustomer}" action="#" method="post">
-            <label for="name">Name</label>
-            <input type="text" id="customenamerName" th:field="*{name}" />
+<body class="container mt-5">
+    <div class="card rounded">
+        <div class="card-header text-center">
+            <h2>Uusi asiakas</h2>
+        </div>
+        <div class="card-body">
+            <form th:object="${customer}" th:action="@{/savecustomer}" action="#" method="post">
 
-            <label for="orgNum">Organization Number</label>
-            <input type="text" id="orgNum" th:field="*{orgNum}" />
+                <div class="form-group">
+                    <label for="customerName">Asiakkaan nimi</label>
+                    <input type="text" class="form-control" id="customerName" th:field="*{name}" />
+                    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error form-text"></small>
+                </div>
 
-            <input type="submit" value="Save"></input>
-        </form>
+                <div class="form-group">
+                    <label for="orgNum">Y-Tunnus</label>
+                    <input type="text" class="form-control" id="orgNum" th:field="*{orgNum}" />
+                    <small th:if="${#fields.hasErrors('orgNum')}" th:errors="*{orgNum}" class="error form-text"></small>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a th:href="@{/crm}" class="btn btn-secondary">Palaa</a>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 

@@ -6,22 +6,35 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name= "app_user")
 public class AppUser {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id", nullable = false, updatable = false)
-	private Long user_id;
-	// Username with unique constraint
-	@Column(name = "username", nullable = false, unique = true)
-	private String username;
-	@Column(name = "password_hash", nullable = false)
-	private String passwordHash;
-	@Column(name = "user_role", nullable = false)
-	private String role;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", nullable = false, updatable = false)
+    private Long user_id;
+
+    // Username with unique constraint
+    @NotNull(message = "Käyttäjätunnus ei saa olla tyhjä")
+    @NotEmpty(message = "Käyttäjätunnus ei saa olla tyhjä")
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
+
+    @NotNull(message = "Salasana ei saa olla tyhjä")
+    @NotEmpty(message = "Salasana ei saa olla tyhjä")
+    @Size(min = 4, message = "Salasanassa tulee olla vähintään 4 merkkiä")
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
+
+    @NotNull(message = "Rooli ei saa olla tyhjä")
+    @NotEmpty(message = "Rooli ei saa olla tyhjä")
+    @Column(name = "user_role", nullable = false)
+    private String role;
 
 	
 	public AppUser() {

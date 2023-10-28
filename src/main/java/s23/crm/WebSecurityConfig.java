@@ -10,8 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
-
 
 import s23.crm.web.UserDetailServiceImpl;
 
@@ -25,7 +23,15 @@ public class WebSecurityConfig {
 	
 	private static final AntPathRequestMatcher[] WHITE_LIST_URLS = {
 			new AntPathRequestMatcher("/h2-console/**"),
-			new AntPathRequestMatcher("/api/**") };
+			new AntPathRequestMatcher("/api/**"), 
+			new AntPathRequestMatcher("/css/**"),
+			new AntPathRequestMatcher("/meetings/**"),
+			new AntPathRequestMatcher("/meeting/**"),
+			new AntPathRequestMatcher("/meeting1/**")
+			};
+	
+	private static final AntPathRequestMatcher[] USER_LIST_URLS = {
+			};
 	
 	private static final AntPathRequestMatcher[] ADMIN_LIST_URLS = {
 			new AntPathRequestMatcher("/delete/**") };
@@ -33,12 +39,14 @@ public class WebSecurityConfig {
 	@Bean
 	public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(authorizeRequest -> authorizeRequest
-				// .requestMatchers("/index").permitAll()
-				.requestMatchers(antMatcher("/css/**")).permitAll()
-				.requestMatchers(WHITE_LIST_URLS).permitAll().requestMatchers(ADMIN_LIST_URLS).hasAuthority("ADMIN")
+				.requestMatchers(WHITE_LIST_URLS).permitAll()
+				.requestMatchers(USER_LIST_URLS).hasAnyAuthority("USER", "ADMIN")
+				.requestMatchers(ADMIN_LIST_URLS).hasAuthority("ADMIN")
 				.anyRequest().authenticated()).formLogin(formlogin -> formlogin
-						// .loginPage("/login")
-						.defaultSuccessUrl("/crm", true).permitAll())
+					    .loginPage("/login")
+					    .failureUrl("/login?error=true")
+					    .defaultSuccessUrl("/crm", true)
+					    .permitAll())
 				.logout(logout -> logout.permitAll())
 				.csrf(csrf -> csrf.disable()); // not for production, only for development
 		return http.build();
@@ -48,5 +56,10 @@ public class WebSecurityConfig {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
 	}
+	
+	  @Bean
+	    public BCryptPasswordEncoder passwordEncoder() {
+	        return new BCryptPasswordEncoder();
+	    }
 
 }

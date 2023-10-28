@@ -1,38 +1,79 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
-
 
 <head>
-	<title>Server Programming with Spring Boot</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>CRM</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .scrollable-table {
+            max-height: 500px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 
-<body>
-	<h1>CRM</h1>
-	<div class="col-md-4">
-		<i>Welcome <b sec:authentication="name"></b>, 
-        your role is <b sec:authentication="principal.authorities"></b>
-	</div>
-	<table class="table table-striped">
-		<tr>
-			<th>Meeting Title</th>
-			<th>Customer</th>
-		</tr>
-		<tr th:each="meeting : ${meetings}">
-			<td th:text="${meeting.meetingTitle}"></td>
-			<td th:text="${meeting.customer?.name}"></td>
-			<td th:text="${meeting.employee?.firstName}"></td>
-			<td th:text="${meeting.employee?.lastName}"></td>
-		</tr>
-	</table>
-	<a href="/addmeeting" class="btn btn-success">Add a new meeting</a> <br>
-	<a href="/addcustomer" class="btn btn-success">Add a new customer</a>
-	<div class="col-md-4" style="padding:20px 0">
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign Out" />
-        </form>
+<body class="container mt-5">
+    <div class="card rounded">
+        <div class="card-header text-center">
+            <h1>CRM</h1>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                <strong>Olet kirjautunut käyttäjätunnuksella: </strong><b sec:authentication="name"></b>
+                <span th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="badge badge-secondary">pääkäyttäjä</span>
+                <span th:if="${#authorization.expression('hasAuthority(''USER'')')}" class="badge badge-secondary">peruskäyttäjä</span>
+            </div>
+
+            <div class="scrollable-table">
+                <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Tapaamisen otsikko</th>
+                <th>Asiakas</th>
+                <th>Myyjä(t)</th>
+                <th sec:authorize="hasAuthority('ADMIN')">Toiminnot</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="meeting : ${meetings}">
+                <td th:text="${meeting.meetingTitle}"></td>
+                <td th:text="${meeting.customer?.name}"></td>
+                <td>
+                    <ul class="list-unstyled">
+                        <li th:each="employee : ${meeting.employees}" th:text="${employee.firstName + ' ' + employee.lastName}"></li>
+                    </ul>
+                </td>
+                <td sec:authorize="hasAuthority('ADMIN')">
+                    <a class="btn btn-danger" th:href="@{/delete/{meetingid}(meetingid=${meeting.meetingid})}">Poista</a>
+                    <a class="btn btn-primary" th:href="@{/editmeeting/{meetingid}(meetingid=${meeting.meetingid})}">Muokkaa</a>
+                </td>
+            </tr>
+        </tbody> 
+        </table>
+            </div>
+
+            <div class="mb-3">
+                <a href="/addmeeting" class="btn btn-success">Lisää tapaaminen</a>
+            </div>
+
+            <div sec:authorize="hasAuthority('ADMIN')">
+                <a href="/addcustomer" class="btn btn-success mb-3">Lisää asiakas</a>
+                <a href="/adduser" class="btn btn-success mb-3">Lisää käyttäjä</a>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-primary">Kirjaudu ulos</button>
+            </form>
+        </div>
     </div>
 </body>
 
 </html>
+
+
+
+
+
