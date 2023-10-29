@@ -18,10 +18,10 @@ public class Customer {
 	private Long customer_id;
 	
 	@Size(min = 2, max = 255, message = "Nimessä tulee olla 2-255 merkkiä")
-    @Column(name = "customer_name") // Specify the column name in the database
+    @Column(name = "customer_name") 
 	private String name;
     @Pattern(regexp = "^\\d{7}-\\d$", message = "Y-tunnuksen tulee olla muodossa 1234567-8")
-    @Column(name = "org_num") // Specify the column name in the database
+    @Column(name = "org_num") 
 	private String orgNum;
 	
 	public Customer() {

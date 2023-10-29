@@ -77,9 +77,6 @@ public class CrmController {
 		if (optionalMeeting.isPresent()) {
 			model.addAttribute("meeting", optionalMeeting.get());
 		} else {
-			// Handle the case where the meeting with the given ID does not exist.
-			// For example, you can redirect to a 404 page or back to the list of meetings
-			// with an error message.
 			return "redirect:/crm";
 		}
 
@@ -113,21 +110,15 @@ public class CrmController {
 	        Model model) {
 	    System.out.println("Entered saveUserAndEmployee method.");
 
-	    // If there are validation errors for AppUser or Employee, we return the form
 	    if (appUserBindingResult.hasErrors() || employeeBindingResult.hasErrors()) {
-	        // Assuming you have some reference data to add for the form rendering
 	        model.addAttribute("appuser", appuser);
 	        model.addAttribute("employee", employee);
-	        // Add more attributes if needed (similar to how you added customers and employees for the meeting)
 	        
-	        return "adduser"; // replace with your actual form template name
+	        return "adduser";
 	    }
 	    
-	    // Encode the password before saving
 	    appuser.setPasswordHash(passwordEncoder.encode(appuser.getPasswordHash()));
 
-	    // Your logic for saving appuser and employee
-	    // Example:
 	    userRepository.save(appuser);
 	    employeeRepository.save(employee);
 
@@ -151,8 +142,8 @@ public class CrmController {
 	public String save(@Validated @ModelAttribute("customer") Customer customer, BindingResult bindingResult,
 			Model model) {
 		   if (bindingResult.hasErrors()) {
-		        model.addAttribute("customer", customer); // You were using "edit" before. It should be "customer" to match the form's th:object.
-		        return "addcustomer"; // Replace with the name of your Thymeleaf template that displays the form.
+		        model.addAttribute("customer", customer); 
+		        return "addcustomer"; 
 		    }
 		customerRepository.save(customer);
 		return "redirect:crm";

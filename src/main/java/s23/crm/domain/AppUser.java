@@ -19,7 +19,6 @@ public class AppUser {
     @Column(name = "user_id", nullable = false, updatable = false)
     private Long user_id;
 
-    // Username with unique constraint
     @NotNull(message = "Käyttäjätunnus ei saa olla tyhjä")
     @NotEmpty(message = "Käyttäjätunnus ei saa olla tyhjä")
     @Column(name = "username", nullable = false, unique = true)

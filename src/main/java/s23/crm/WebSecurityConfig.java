@@ -25,9 +25,8 @@ public class WebSecurityConfig {
 			new AntPathRequestMatcher("/h2-console/**"),
 			new AntPathRequestMatcher("/api/**"), 
 			new AntPathRequestMatcher("/css/**"),
-			new AntPathRequestMatcher("/meetings/**"),
 			new AntPathRequestMatcher("/meeting/**"),
-			new AntPathRequestMatcher("/meeting1/**")
+			new AntPathRequestMatcher("/meetings/**")
 			};
 	
 	private static final AntPathRequestMatcher[] USER_LIST_URLS = {
