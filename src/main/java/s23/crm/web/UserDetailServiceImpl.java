@@ -10,9 +10,6 @@ import org.springframework.stereotype.Service;
 import s23.crm.domain.AppUser;
 import s23.crm.domain.UserRepository;
 
-/**
- * This class is used by spring security to authenticate and authorize user
- **/
 @Service
 public class UserDetailServiceImpl implements UserDetailsService  {
 	private final UserRepository repository;

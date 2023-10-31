@@ -30,10 +30,11 @@ public class WebSecurityConfig {
 			};
 	
 	private static final AntPathRequestMatcher[] USER_LIST_URLS = {
+			new AntPathRequestMatcher("/rest/delete/**")
 			};
 	
 	private static final AntPathRequestMatcher[] ADMIN_LIST_URLS = {
-			new AntPathRequestMatcher("/delete/**") };
+			 };
 			
 	@Bean
 	public SecurityFilterChain configure(HttpSecurity http) throws Exception {
@@ -41,13 +42,18 @@ public class WebSecurityConfig {
 				.requestMatchers(WHITE_LIST_URLS).permitAll()
 				.requestMatchers(USER_LIST_URLS).hasAnyAuthority("USER", "ADMIN")
 				.requestMatchers(ADMIN_LIST_URLS).hasAuthority("ADMIN")
-				.anyRequest().authenticated()).formLogin(formlogin -> formlogin
-					    .loginPage("/login")
-					    .failureUrl("/login?error=true")
-					    .defaultSuccessUrl("/crm", true)
-					    .permitAll())
-				.logout(logout -> logout.permitAll())
-				.csrf(csrf -> csrf.disable()); // not for production, only for development
+				.anyRequest().authenticated())
+		
+		.formLogin(formlogin -> formlogin
+				.loginPage("/login")
+				.failureUrl("/login?error=true")
+				.permitAll()
+				)
+		.logout(logout -> logout.permitAll())
+		.csrf(csrf -> csrf.disable()) // not for production, only for development
+		.exceptionHandling(exceptionHandling -> exceptionHandling
+                .accessDeniedPage("/403.html")
+            );
 		return http.build();
 	}
 

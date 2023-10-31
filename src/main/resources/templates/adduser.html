@@ -19,7 +19,6 @@
         </div>
         <div class="card-body">
             <form th:action="@{/saveuser}" action="#" method="post">
-                <!-- User details -->
                 <div th:object="${appuser}">
                     <div class="form-group">
                         <label for="username">Käyttäjätunnus</label>
@@ -43,7 +42,6 @@
                     </div>
                 </div>
 
-                <!-- Employee details -->
                 <div th:object="${employee}">
                     <div class="form-group">
                         <label for="firstName">Etunimi</label>
@@ -66,7 +64,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Tallenna</button>
-                    <a th:href="@{/crm}" class="btn btn-secondary">Palaa</a>
+                    <a th:href="@{/usermanagement}" class="btn btn-secondary">Palaa</a>
                 </div>
             </form>
         </div>

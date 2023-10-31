@@ -50,7 +50,7 @@ public class CrmRestController {
     }
 
     // Delete a meeting
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/rest/delete/{id}")
     public ResponseEntity<Void> deleteMeeting(@PathVariable Long id) {
         if (!meetingRepository.existsById(id)) {
             return ResponseEntity.notFound().build();

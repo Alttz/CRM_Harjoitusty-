@@ -2,39 +2,42 @@
 <html lang="fi" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRM Sisäänkirjautuminen</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CRM Sisäänkirjautuminen</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <b class="card-header">CRM Sisäänkirjautuminen</b>
-                <div class="card-body">
-                    <form th:action="@{/login}" method="post">
-                        <div class="form-group">
-                            <label for="username">Käyttäjätunnus:</label>
-                            <input type="text" class="form-control" id="username" name="username" th:required="required">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Salasana:</label>
-                            <input type="password" class="form-control" id="password" name="password" th:required="required">
-                        </div>
-                        <div th:if="${param.error}" class="alert alert-danger">
-            Käyttäjätunnus tai salasana on virheellinen.
-        </div>
-                        <button type="submit" class="btn btn-primary">Kirjaudu</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<div class="card">
+					<b class="card-header">CRM Sisäänkirjautuminen</b>
+					<div class="card-body">
+						<form th:action="@{/login}" method="post">
+							<div class="form-group">
+								<label for="username">Käyttäjätunnus:</label>
+								<input type="text" class="form-control" id="username" name="username"
+									th:required="required">
+							</div>
+							<div class="form-group">
+								<label for="password">Salasana:</label>
+								<input type="password" class="form-control" id="password" name="password"
+									th:required="required">
+							</div>
+							<div th:if="${param.error}" class="alert alert-danger">
+								Käyttäjätunnus tai salasana on virheellinen.
+							</div>
+							<button type="submit" class="btn btn-primary">Kirjaudu</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
+
 </html>

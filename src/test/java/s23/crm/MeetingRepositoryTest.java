@@ -60,26 +60,20 @@ public class MeetingRepositoryTest {
 	@Transactional
 	@Rollback(false)
 	public void updateMeeting() {
-	    // 1. Fetch a Meeting based on a known title
 	    List<Meeting> meetings = meetingRepository.findByMeetingTitle("Testipalaveri");
 	    assertThat(meetings).isNotEmpty();
 	    Meeting meetingToUpdate = meetings.get(0);
 	    System.out.println("Before Update: " + meetingToUpdate.getMeetingTitle());
 
-	    // 2. Update some attributes
 	    meetingToUpdate.setMeetingTitle("Updated meeting");
 	    System.out.println("After Update: " + meetingToUpdate.getMeetingTitle());
 
-	    // 3. Save the updated Meeting
 	    meetingRepository.save(meetingToUpdate);
 	    entityManager.flush();
 	    entityManager.clear();
 
-	    // After clearing the EntityManager, your meetingToUpdate reference is detached.
-	    // So, if you want to perform any operation that requires a managed entity, you need to re-fetch it.
 	    meetingToUpdate = meetingRepository.findByMeetingTitle("Updated meeting").get(0);
 
-	    // 4. Fetch the Meeting again and verify the updates
 	    List<Meeting> updatedMeetings = meetingRepository.findByMeetingTitle("Updated meeting");
 	    assertThat(updatedMeetings).isNotEmpty();
 	    assertThat(updatedMeetings.get(0).getMeetingTitle()).isEqualTo("Updated meeting");
@@ -90,19 +84,15 @@ public class MeetingRepositoryTest {
 	@Transactional
 	@Rollback(false)
 	public void deleteMeeting() {
-	    // 1. Fetch the Meeting based on the title we updated to
 	    List<Meeting> meetings = meetingRepository.findByMeetingTitle("Updated meeting");
 	    assertThat(meetings).isNotEmpty();
 	    Meeting meetingToDelete = meetings.get(0);
 
-	    // 2. Delete the Meeting
 	    meetingRepository.delete(meetingToDelete);
 
-	    // 3. Flush and Clear the EntityManager to ensure the delete operation is reflected
 	    entityManager.flush();
 	    entityManager.clear();
 
-	    // 4. Try to fetch the Meeting again to ensure it's been deleted
 	    List<Meeting> meetingsAfterDelete = meetingRepository.findByMeetingTitle("Updated meeting");
 	    assertThat(meetingsAfterDelete).isEmpty();
 	}
